@@ -1,0 +1,23 @@
+[project]
+name = "abl"
+version = "0.0.1"
+
+authors = [
+    {name = "Libor Ukropec", email = "ace@seznam.cz"},
+]
+
+description = "Controlling ABL EMH1 wall box"
+readme = "README.md"
+license = {text = "MIT"}
+
+dependencies = [
+  "minimalmodbus @ git+https://github.com/cz6ace/minimalmodbus.git@abl"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]  # list of folders that contain the packages (["."] by default)
+include = ["abl"]  # package names should match these glob patterns (["*"] by default)
+exclude = []  # exclude package
+
+[project.scripts]
+abl = "abl.app:main"
