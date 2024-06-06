@@ -13,11 +13,28 @@ ABL_REG_READ_CURRENT_FULL = (0x002E, 5, "R")
 ABL_REG_READ_CURRENT_AMPS = (0x0033, 3, "R")
 
 class Status(Enum):
-	NO_RESPONSE         =   0, "No response from EVCC"
-	WAIT_FOR_CONNECTION = 161, "Wait for connection"
-	WAIT_FOR_ENABLEMENT = 177, "Wait for enablement"
-	CHARGING_ENABLED =    178, "Charging enabled"
-	CHARGING =            194, "Charging"
+	NO_RESPONSE         =    0, "No response from EVCC"
+	WAIT_FOR_CONNECTION = 0xA1, "Waiting for EV"
+	WAIT_FOR_ENABLEMENT = 0xB1, "EV is asking for charging"
+	CHARGING_ENABLED =    0xB2, "Charging enabled"
+	CHARGING =            0xC2, "Charging"
+	CHARGING_REDUCED =    0xC3, "Charging reduced current (error F16, F17)"
+	CHARGING_IMBALANCE =  0xC4, "Charging reduced current (imbalance F15)"
+	OUTLET_DISABLED =     0xE0, "Outlet disabled"
+	PRODUCTION_TEST =     0xE1, "Production test"
+	EVCC_SETUP_MODE =     0xE2, "EVCC setup mode"
+	BUS_IDLE =            0xE3, "Bus idle"
+	WELDING =             0xF1, "Unintended closed contact (Welding)"
+	INTERNAL_ERROR =      0xF2, "Internal error"
+	DC_RESIDUAL_CURRENT = 0xF3, "DC residual current detected"
+	UPSTREAM_TIMEOUT    = 0xF4, "Upstream communication timeout"
+	LOCK_SOCKET_FAILED  = 0xF5, "Lock of socket failed"
+	CS_OUT_OF_RANGE     = 0xF6, "CS out of range"
+	STATE_D_BY_EV       = 0xF7, "State D requested by EV"
+	CP_OUT_OF_RANGE     = 0xF8, "CP out of range"
+	OVERCURRENT         = 0xF9, "Overcurrent detected"
+	TEMP_OUT_OF_LIMITS  = 0xFA, "Temperature outside limits"
+	UNINTENDED_OPEN     = 0xFB, "Unintended open contact"
 
 	@staticmethod
 	def from_val(val):
@@ -25,28 +42,6 @@ class Status(Enum):
 			if e.value[0] == val:
 				return e
 		return NO_RESPONSE
-# Definition of states
-# A1 - Waiting for EV
-# B1 - EV is asking for charging
-# B2 - EV has the permission to charge
-# C2 - EV is charged
-# C3 - C2, reduced current (error F16, F17)
-# C4 - C2, reduced current (imbalance F15)
-# E0 - Outlet disabled
-# E1 - Production test
-# E2 - EVCC setup mode
-# E3 - Bus idle
-# F1 - Unintended closed contact (Welding)
-# F2 - Internal error
-# F3 - DC residual current detected
-# F4 - Upstream communication timeout
-# F5 - Lock of socket failed
-# F6 - CS out of range
-# F7 - State D requested by EV
-# F8 - CP out of range
-# F9 - Overcurrent detected
-# F10 - Temperature outside limits
-# F11 - Unintended opened contactu
 
 
 class Abl():
