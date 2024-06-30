@@ -23,7 +23,7 @@
 # SOFTWARE.
 #
 
-from .abl import Status, Abl
+from .abl import Status, Abl, ABL_REGISTERS
 import abl.app
 
-__all__ = ["Status", "Abl", "app"]
+__all__ = ["Status", "Abl", "app", "ABL_REGISTERS"]

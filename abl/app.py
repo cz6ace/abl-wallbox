@@ -49,6 +49,12 @@ def main():
     parser.add_argument(
         "--pause", action="store_true", help="Pauses charging (via 100%% duty)"
     )
+    parser.add_argument(
+        "--enable", action="store_true", help="Enable the charger (outlet)"
+    )
+    parser.add_argument(
+        "--disable", action="store_true", help="Disable the charger (outlet)"
+    )
     args = parser.parse_args()
 
     ABL = minimalmodbus.Instrument(args.port, args.addr, minimalmodbus.MODE_ASCII)
@@ -56,6 +62,12 @@ def main():
     a.Wake_Up()
     status = a.Read_Status()
     print(status)
+    if args.disable:
+        a.Enable_Outlet(False)
+        return
+    elif args.enable:
+        a.Enable_Outlet(True)
+
     if args.pause:
         a.Set_Duty(100)
     elif args.limit is not None:

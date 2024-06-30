@@ -36,7 +36,7 @@ It is possible to limit the current (--limit) in Amperes, or pause charging (--p
 
 ```bash
 abl --help
-usage: abl [-h] [-p PORT] [-a ADDR] [-l LIMIT] [--pause]
+usage: abl [-h] [-p PORT] [-a ADDR] [-l LIMIT] [--pause] [--enable] [--disable]
 
 Controll app for ABL eEMH1. It reads status of the wallbox, ability to set limiting current or pause charging
 
@@ -47,6 +47,8 @@ options:
   -l LIMIT, --limit LIMIT
                         Limit the charging current (via duty)
   --pause               Pauses charging (via 100% duty)
+  --enable              Enable the charger (outlet)
+  --disable             Disable the charger (outlet)
 ```
 
 ## Python library

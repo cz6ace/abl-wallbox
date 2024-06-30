@@ -37,6 +37,9 @@ ABL_REG_SET_DEVICE_ID = (0x002C, 1, "W")
 ABL_REG_READ_CURRENT_FULL = (0x002E, 5, "R")
 ABL_REG_READ_CURRENT_AMPS = (0x0033, 3, "R")
 
+ABL_REGISTERS = [ ABL_REG_DEVICE_ID, ABL_REG_MODBUS_SETTINGS, ABL_REG_MOD_STATE, \
+        ABL_REG_SYSTEM_FLAGS, ABL_REG_SET_ICMAX, ABL_REG_SET_DEVICE_ID, \
+        ABL_REG_READ_CURRENT_FULL, ABL_REG_READ_CURRENT_AMPS ]
 
 class Status(Enum):
     NO_RESPONSE = 0, "No response from EVCC"
@@ -87,6 +90,12 @@ class Abl:
         except:
             pass
 
+    def Enable_Outlet(self, status):
+        # 0xA1A1 - Jump to state A1 (E0 or E2 required)
+        # 0xE0E0 - Jump to state E0
+        logging.info(f"Set outlet state to {status}")
+        self.ABL.write_registers(ABL_REG_MOD_STATE[0], [0xA1A1 if status else 0xE0E0])
+
     def Read_Status(self):
         registers = self.ABL.read_registers(
             ABL_REG_READ_CURRENT_FULL[0], ABL_REG_READ_CURRENT_FULL[1]
@@ -103,7 +112,7 @@ class Abl:
         """Set duty 8..100%"""
         assert 8 <= duty <= 100, f"Passed {duty}"
         logging.info(f"Set duty to {duty}")
-        self.ABL.write_registers(20, [int(duty * 10)])
+        self.ABL.write_registers(ABL_REG_SET_ICMAX[0], [int(duty * 10)])
 
     def Set_Current(self, current):
         """Set current 6..16A"""
